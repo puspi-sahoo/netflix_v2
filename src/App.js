@@ -1,25 +1,26 @@
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import SeriesCard from './SeriesCard';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [seriesList, setSeriesList] = useState([]);
+
+  useEffect(() => {
+    fetch('https://api.example.com/netflix-series')
+      .then(response => response.json())
+      .then(data => setSeriesList(data));
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Top 10 Netflix Series</h1>
+      <div className="series-list">
+        {seriesList.map((series, index) => (
+          <SeriesCard key={index} series={series} />
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
